@@ -9,6 +9,7 @@ sequenceDiagram
   note over server, browser: Js code starts fetching the Json data from the server
   browser ->> server: sends http request for Json data
   server -->> browser: sends Json data
+  note over browser: Renders the Json data
   note right of server: {"message" : "egg", "date" : "12.8.2024"} is the Json data format
   note right of server: mostly the same as the spa one except with new entries and such
 ```
