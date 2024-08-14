@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const CoolButton = (props) => {
   return (
-    <button onClick={props.handleClick}>next anecdote</button>
+    <button onClick={props.handleClick}>{props.text}</button>
   )
 }
 
@@ -13,17 +13,20 @@ const Anecdote = (props) => {
   )
 }
 
-const Voter = (props) => {
-
+const VoteCount = (props) => {
   return (
-    <button onClick={props.handleClick}>vote</button>
+    <div>Current vote count : {props.total}</div>
   )
 }
 
-const VoteCount = (props) => {
-    return (
-      <div>Current vote count : {props.total}</div>
-    )
+const MostPopular = (props) => {
+  return (
+    <div>
+      <h1>Anecdote with the most votes</h1>
+      <div>{props.coolest}</div>
+      <div>has {props.mostVotes} votes</div>
+    </div>
+  )
 }
 
 const App = () => {
@@ -38,17 +41,39 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const newArray = new Uint8Array(anecdotes.length);
-
   const [selected, setSelected] = useState(0);
-  const [votes, setVotes] = useState(...newArray);
+  const [votes, setVotes] = useState(new Uint8Array(anecdotes.length));
+  const [mostVoted, setMostVoted] = useState(0)
+
+  // Votes gets turned into an object but if it works it works
+  const clickHandler = () => {
+    const coolerList = {...votes}
+    const newValue = coolerList[selected] += 1
+
+    let mostVotes = Math.max(...votes)
+    let pos = votes.indexOf(mostVotes)
+
+    setVotes(coolerList)
+
+    console.log("Selected anecdote : " + selected)
+    console.log(votes)
+
+    if (votes[selected] > newValue) {
+      setMostVoted(selected)
+    }
+  }
+
+  const randomAnecdote = () => {
+    setSelected(Math.floor(Math.random() * anecdotes.length))
+  }
 
   return (
     <div>
       <Anecdote anecdote={anecdotes[selected]} />
       <VoteCount total={votes[selected]} />
-      <Voter handleClick={() => {setVotes(votes[selected] + 1)}} />
-      <CoolButton handleClick={() => {setSelected(Math.floor(Math.random() * anecdotes.length))}} />
+      <CoolButton handleClick={clickHandler} text={"vote"} />
+      <CoolButton handleClick={randomAnecdote} text={"next anecdote"} />
+      <MostPopular coolest={anecdotes[mostVoted]} mostVotes={"g"} />
     </div>
   )
 }
