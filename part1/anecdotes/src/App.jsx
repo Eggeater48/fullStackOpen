@@ -19,16 +19,6 @@ const VoteCount = (props) => {
   )
 }
 
-const MostPopular = (props) => {
-  return (
-    <div>
-      <h1>Anecdote with the most votes</h1>
-      <div>{props.coolest}</div>
-      <div>has {props.mostVotes} votes</div>
-    </div>
-  )
-}
-
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -43,24 +33,11 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Uint8Array(anecdotes.length));
-  const [mostVoted, setMostVoted] = useState(0)
 
-  // Votes gets turned into an object but if it works it works
   const clickHandler = () => {
     const coolerList = {...votes}
-    const newValue = coolerList[selected] += 1
-
-    let mostVotes = Math.max(...votes)
-    let pos = votes.indexOf(mostVotes)
-
+    coolerList[selected] += 1
     setVotes(coolerList)
-
-    console.log("Selected anecdote : " + selected)
-    console.log(votes)
-
-    if (votes[selected] > newValue) {
-      setMostVoted(selected)
-    }
   }
 
   const randomAnecdote = () => {
@@ -73,7 +50,7 @@ const App = () => {
       <VoteCount total={votes[selected]} />
       <CoolButton handleClick={clickHandler} text={"vote"} />
       <CoolButton handleClick={randomAnecdote} text={"next anecdote"} />
-      <MostPopular coolest={anecdotes[mostVoted]} mostVotes={"g"} />
+
     </div>
   )
 }
