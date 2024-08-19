@@ -12,7 +12,7 @@ const TotalThing = (props) => {
 const PartDisplay = (props) => {
 	return (
 		<div>
-			{props.course.things.map((part) =>
+			{props.map((part) =>
 				<p key={part.id}>{part.name} {part.exercises}</p>
 			)}
 		</div>
@@ -20,17 +20,15 @@ const PartDisplay = (props) => {
 	)
 }
 
-
-
+// Armageddon starts when you put PartDisplay in there
 const Course = (props) => {
 
 	return (
 		<div>
 			{props.courses.map((course) =>
 				<div key={course.id}>
-					<h1>{course.name}</h1>
-
-					<PartDisplay things={course} />
+					<h2>{course.name}</h2>
+					<div></div>
 
 				</div>
 			)}
