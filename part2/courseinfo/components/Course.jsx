@@ -1,18 +1,17 @@
 const TotalThing = (props) => {
-
 	const total = props.courses.parts.reduce((accumulator, currentValue) => {
 		return accumulator + currentValue.exercises
 	}, 0)
 
 	return (
-		<div></div>
+		<div>Total count : {total}</div>
 	)
 }
 
 const PartDisplay = (props) => {
 	return (
 		<div>
-			{props.map((part) =>
+			{props.courses.parts.map((part) =>
 				<p key={part.id}>{part.name} {part.exercises}</p>
 			)}
 		</div>
@@ -20,15 +19,15 @@ const PartDisplay = (props) => {
 	)
 }
 
-// Armageddon starts when you put PartDisplay in there
 const Course = (props) => {
-
 	return (
 		<div>
 			{props.courses.map((course) =>
 				<div key={course.id}>
 					<h2>{course.name}</h2>
-					<div></div>
+
+				<PartDisplay courses={course} />
+				<TotalThing courses={course} />
 
 				</div>
 			)}
@@ -38,15 +37,3 @@ const Course = (props) => {
 }
 
 export default Course
-
-
-
-/*
- 			<h1>{props.course["name"]}</h1>
-
-			{props.course["parts"].map((note) =>
-				<p key={note.id}>
-					{note.name} {note.exercises}
-				</p>
-			)}
-*/
