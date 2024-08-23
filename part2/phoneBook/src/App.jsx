@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Filter from "./components/Filter.jsx";
+import AddNew from "./components/AddNew.jsx";
+import Numbers from "./components/Numbers.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -35,6 +37,7 @@ const App = () => {
     setNewName('')
   }
 
+  // Could probably make the code cleaner if i knew how to combine these
   const handleInputChanges = (event) => {
     setNewName(event.target.value)
   }
@@ -45,12 +48,12 @@ const App = () => {
 
   const dataFilter = filterThing
     ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(input))
+    : persons.filter(person => person.name.toLowerCase().includes(input.toLowerCase()))
 
   const filterInputChange = (event) => {
     setInput(event.target.value)
+    console.log(filterThing)
   }
-
 
   return (
     <div>
@@ -60,7 +63,16 @@ const App = () => {
 
       <h2>Add new</h2>
 
+      <AddNew
+        whenSubmit={addPerson}
+        nameChange={handleInputChanges}
+        numberChange={inputHandler}
+        name={newName}
+        pNumber={phoneNumber} />
+
       <h2>Numbers</h2>
+
+      <Numbers numberFilter={dataFilter} />
 
     </div>
   )

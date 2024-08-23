@@ -1,14 +1,14 @@
 const AddNew = (props) => {
 	return (
 		<div>
-			<form onSubmit={addPerson}>
+			<form onSubmit={props.whenSubmit}>
 
 				<div>
-					name: <input value={newName} onChange={handleInputChanges}/>
+					name: <input value={props.name} onChange={props.nameChange}/>
 				</div>
 
 				<div>
-					number: <input value={phoneNumber} onChange={inputHandler}/>
+					number: <input value={props.pNumber} onChange={props.numberChange}/>
 				</div>
 
 				<div>
