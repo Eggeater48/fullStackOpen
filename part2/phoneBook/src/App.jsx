@@ -3,6 +3,7 @@ import Filter from "./components/Filter.jsx";
 import AddNew from "./components/AddNew.jsx";
 import Numbers from "./components/Numbers.jsx";
 import axios from "axios";
+import coolServices from "./services/coolServices.js";
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -26,9 +27,9 @@ const App = () => {
     event.preventDefault()
 
     const personObject = {
+      id: (persons.length + 1).toString() ,
       name: newName,
       number: phoneNumber,
-      id: persons.length + 1
     }
 
     if (persons.some(e => e.name === newName)) {
@@ -37,6 +38,7 @@ const App = () => {
       window.alert(`The number : ${phoneNumber} is already in the phone book`)
     } else {
       setPersons(persons.concat(personObject))
+      coolServices.create(personObject)
     }
 
     setNewName('')
