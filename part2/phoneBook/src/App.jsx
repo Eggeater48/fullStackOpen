@@ -2,8 +2,9 @@ import {useEffect, useState} from 'react'
 import Filter from "./components/Filter.jsx";
 import AddNew from "./components/AddNew.jsx";
 import Numbers from "./components/Numbers.jsx";
-import axios from "axios";
+
 import coolServices from "./services/coolServices.js";
+import Notification from "./components/Notification.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,37 +15,37 @@ const App = () => {
   const [input, setInput] = useState('')
   const filterThing = ""
 
+  const [message, setMessage] = useState("Im a message 😎")
+
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    coolServices.getAll()
       .then(response => {
         setPersons(response.data)
       })
   }, [])
 
-
   const addPerson = (event) => {
     event.preventDefault()
 
     const personObject = {
-      id: (persons.length + 1).toString() ,
       name: newName,
       number: phoneNumber,
+      id: persons.length.toString(),
     }
 
+    const index_ = persons.findIndex(x => x.name === newName)
+
     if (persons.some(e => e.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else if (persons.some(e => e.name === phoneNumber)) {
-      window.alert(`The number : ${phoneNumber} is already in the phone book`)
+      if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one? `))
+        coolServices.updateData([index_, {name: newName, number: phoneNumber, id: index_}]) // looks kinda silly tbh
     } else {
       setPersons(persons.concat(personObject))
       coolServices.create(personObject)
+      console.log(`Added ${personObject.name}`)
     }
-
     setNewName('')
   }
 
-  // Could probably make the code cleaner if i knew how to combine these
   const handleInputChanges = (event) => {
     setNewName(event.target.value)
   }
@@ -65,6 +66,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification coolName={newName} />
 
       <Filter inputter={input} handleChange={filterInputChange}/>
 
