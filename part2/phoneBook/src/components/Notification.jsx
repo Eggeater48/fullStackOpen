@@ -1,8 +1,13 @@
-const Notification = (props) => {
+const Notification = ({ message }) => {
+	if (message === null) {
+		return null
+	}
+
 	return (
-		<div></div>
+		<div className={'added-new'}>
+			{message}
+		</div>
 	)
 }
-
 
 export default Notification

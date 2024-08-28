@@ -5,6 +5,7 @@ import Numbers from "./components/Numbers.jsx";
 
 import coolServices from "./services/coolServices.js";
 import Notification from "./components/Notification.jsx";
+import ErrorDisplay from "./components/ErrorDisplay.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -15,7 +16,8 @@ const App = () => {
   const [input, setInput] = useState('')
   const filterThing = ""
 
-  const [message, setMessage] = useState("Im a message 😎")
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     coolServices.getAll()
@@ -37,11 +39,26 @@ const App = () => {
 
     if (persons.some(e => e.name === newName)) {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one? `))
-        coolServices.updateData([index_, {name: newName, number: phoneNumber, id: index_}]) // looks kinda silly tbh
+        coolServices
+          .updateData([index_, {name: newName, number: phoneNumber, id: index_}])
+          .catch(error => {
+            setErrorMessage(`Information of ${newName} has already been removed from the server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
+
     } else {
       setPersons(persons.concat(personObject))
       coolServices.create(personObject)
-      console.log(`Added ${personObject.name}`)
+        .then(() => {
+          setMessage(
+            `Added ${newName}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
     }
     setNewName('')
   }
@@ -60,14 +77,14 @@ const App = () => {
 
   const filterInputChange = (event) => {
     setInput(event.target.value)
-    console.log(filterThing)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Notification coolName={newName} />
+      <Notification message={message} />
+      <ErrorDisplay  errorMessage={errorMessage}/>
 
       <Filter inputter={input} handleChange={filterInputChange}/>
 
