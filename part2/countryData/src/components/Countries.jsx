@@ -1,6 +1,4 @@
 const Countries = (props) => {
-
-
 	return (
 		<div>
 			{props.filter.map((country) =>
@@ -11,3 +9,5 @@ const Countries = (props) => {
 		</div>
 	)
 }
+
+export default Countries

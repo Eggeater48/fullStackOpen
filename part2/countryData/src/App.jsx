@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
-import Filter from "./components/Filter.jsx";
 import coolServices from "./services/coolServices.js";
+
+import Filter from "./components/Filter.jsx";
+import Countries from "./components/Countries.jsx";
+
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -19,12 +22,13 @@ function App() {
 
   const dataFilter = ''
     ? countries
-    : countries.filter(country => country.name.toLowerCase().includes(currentSearch.toLowerCase()))
-
+    : countries.filter(country => country.name.common.toLowerCase().includes(currentSearch.toLowerCase()))
 
   return (
     <div>
       <Filter value={currentSearch} onChange={handleChange} />
+
+      <Countries filter={dataFilter} />
 
     </div>
   )
