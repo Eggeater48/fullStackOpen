@@ -14,7 +14,6 @@ const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
 
   const [input, setInput] = useState('')
-  const filterThing = ""
 
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -71,7 +70,7 @@ const App = () => {
     setPhoneNumber(event.target.value)
   }
 
-  const dataFilter = filterThing
+  const dataFilter = ''
     ? persons
     : persons.filter(person => person.name.toLowerCase().includes(input.toLowerCase()))
 

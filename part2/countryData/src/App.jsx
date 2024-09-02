@@ -9,6 +9,8 @@ function App() {
   const [countries, setCountries] = useState([])
   const [currentSearch, setCurrentSearch] = useState('')
 
+  const filterThing = ''
+
   useEffect(() => {
     coolServices.getAll()
       .then(response => {
@@ -20,7 +22,7 @@ function App() {
     setCurrentSearch(event.target.value)
   }
 
-  const dataFilter = ''
+  const dataFilter = filterThing
     ? countries
     : countries.filter(country => country.name.common.toLowerCase().includes(currentSearch.toLowerCase()))
 
@@ -28,7 +30,7 @@ function App() {
     <div>
       <Filter value={currentSearch} onChange={handleChange} />
 
-      <Countries filter={dataFilter} />
+      <Countries filter={dataFilter} value={currentSearch} />
 
     </div>
   )
