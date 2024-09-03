@@ -22,6 +22,7 @@ function App() {
     setCurrentSearch(event.target.value)
   }
 
+
   const dataFilter = filterThing
     ? countries
     : countries.filter(country => country.name.common.toLowerCase().includes(currentSearch.toLowerCase()))
