@@ -1,11 +1,20 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import coolServices from "../services/coolServices.js";
 
 const Country = (props) => {
+	const [weather, setWeather] = useState([])
+
 	useEffect(() => {
 		coolServices.getWeather(props.country.latlng)
+			.then(response => {
+				console.log(response.data)
+				setWeather(response.data)
+				console.log(weather)
+			})
+
 	}, [])
 
+/*
 	return (
 		<div key={props.country.name.common}>
 			<h1>{props.country.name.common}</h1>
@@ -25,10 +34,21 @@ const Country = (props) => {
 
 			<h2>Weather In {props.country.capital}</h2>
 
+			<p>Temperature: {weather.main.temp} Celsius</p>
 
+			<p>logo here</p>
+
+			<p>Wind: {weather.wind.speed} m/s</p>
 
 		</div>
 	)
+*/
+
+	return <div>greg</div>
+
+
+
+
 }
 
 export default Country
