@@ -15,6 +15,5 @@ const getWeather = latLong => {
 	return axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latLong[0]}&lon=${latLong[1]}&appid=${API_KEY}&units=metric`)
 }
 
-
 export default { getAll, getSpecific, getWeather }
 

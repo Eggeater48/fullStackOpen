@@ -2,21 +2,22 @@ import {useEffect, useState} from "react";
 import coolServices from "../services/coolServices.js";
 
 const Country = (props) => {
-	const [weather, setWeather] = useState([])
+	const [weatherReport, setWeatherReport] = useState(null)
 
 	useEffect(() => {
-		coolServices.getWeather(props.country.latlng)
+		coolServices
+			.getWeather(props.country.latlng)
 			.then(response => {
-				console.log(response.data)
-				setWeather(response.data)
-				console.log(weather)
+				setWeatherReport(response.data)
 			})
-
 	}, [])
 
-/*
+	if (!weatherReport) {
+		return null
+	}
+
 	return (
-		<div key={props.country.name.common}>
+		<div key={props.country.name.official}>
 			<h1>{props.country.name.common}</h1>
 
 			<p>Capital: {Object.values(props.country.capital)}</p>
@@ -34,21 +35,14 @@ const Country = (props) => {
 
 			<h2>Weather In {props.country.capital}</h2>
 
-			<p>Temperature: {weather.main.temp} Celsius</p>
+			<p>Temperature: {weatherReport.main.temp} Celsius</p>
 
-			<p>logo here</p>
+			<img src={`https://openweathermap.org/img/wn/${weatherReport.weather[0].icon}@2x.png`} alt={''}/>
 
-			<p>Wind: {weather.wind.speed} m/s</p>
+			<p>Wind: {weatherReport.wind.speed} m/s</p>
 
 		</div>
 	)
-*/
-
-	return <div>greg</div>
-
-
-
-
 }
 
 export default Country
