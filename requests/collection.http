@@ -1,0 +1,15 @@
+### GetAll
+# @name GetAll
+GET http://localhost:3000/api/blogs
+
+### CreateNew
+# @name CreateNew
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+  "title": "gregging",
+  "author": "greg",
+  "url": "",
+  "likes": 0
+}
