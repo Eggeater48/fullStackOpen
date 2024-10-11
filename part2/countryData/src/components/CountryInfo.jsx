@@ -9,7 +9,7 @@ const CountryInfo = (props) => {
 	}
 
 	return (
-		<div key={props.country.name.common}>
+		<div key={props.country.tld[0]}>
 			<p>
 				{props.country.name.common}
 				<button onClick={handleClick}>show</button>

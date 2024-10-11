@@ -31,33 +31,46 @@ const App = () => {
     const personObject = {
       name: newName,
       number: phoneNumber,
-      id: persons.length.toString(),
+      id: persons.length.toString() + 1,
     }
 
     const index_ = persons.findIndex(x => x.name === newName)
-
     if (persons.some(e => e.name === newName)) {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one? `))
         coolServices
-          .updateData([index_, {name: newName, number: phoneNumber, id: index_}])
+          .updateData([persons[index_].id, {name: newName, number: phoneNumber, id: persons[index_].id}])
+          .then(() => {
+            const newPersons = persons.map((person, i) => {
+              if (i === index_) {
+                return {name: newName, number: phoneNumber, id: persons[index_].id}
+              } else {
+                return person
+              }})
+            setPersons(newPersons)
+          })
           .catch(error => {
-            setErrorMessage(`Information of ${newName} has already been removed from the server`)
+            console.log(error.response)
+            setErrorMessage(error.response.data.error)
             setTimeout(() => {
               setErrorMessage(null)
             }, 5000)
           })
-
     } else {
-      setPersons(persons.concat(personObject))
       coolServices.create(personObject)
         .then(() => {
+          setPersons(persons.concat(personObject))
           setMessage(
             `Added ${newName}`
           )
           setTimeout(() => {
             setMessage(null)
           }, 5000)
-        })
+        }).catch(error => {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+      })
     }
     setNewName('')
   }
@@ -76,6 +89,19 @@ const App = () => {
 
   const filterInputChange = (event) => {
     setInput(event.target.value)
+  }
+
+  const deleteEvent = (event) => {
+    if (window.confirm(`Delete ${event.target.value}`)) {
+      coolServices.deleteData(event.target.value)
+        .then(() => {
+          setPersons(
+            persons.filter(p => p.id !== event.target.value)
+          )
+        }).catch(error => {
+          console.log('nu uh error : ', error)
+        })
+    }
   }
 
   return (
@@ -98,7 +124,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Numbers numberFilter={dataFilter} />
+      <Numbers numberFilter={dataFilter} onClick={deleteEvent} />
 
     </div>
   )

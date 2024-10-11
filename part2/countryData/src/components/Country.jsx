@@ -17,7 +17,7 @@ const Country = (props) => {
 	}
 
 	return (
-		<div key={props.country.name.official}>
+		<div key={props.country.cca2}>
 			<h1>{props.country.name.common}</h1>
 
 			<p>Capital: {Object.values(props.country.capital)}</p>
