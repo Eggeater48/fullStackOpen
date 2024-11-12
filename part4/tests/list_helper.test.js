@@ -86,7 +86,6 @@ describe('most liked', () => {
 			author: "Edsger W. Dijkstra",
 			likes: 12
 		})
-		// TODO finish the 4.6 - 4.7 exercises
 	})
 })
 
@@ -148,6 +147,5 @@ describe('most blogs', () => {
 			author: "Robert C. Martin",
 			blogs: 3
 		})
-
 	})
 })

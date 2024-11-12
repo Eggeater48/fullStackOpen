@@ -69,16 +69,33 @@ const bloges = [
 	}
 ]
 
-const mostBlogs = (blogs) => {
-	const authors = _.map(blogs, 'author')
-	return _.countBy(blogs, authors)
+const mostBlogs = (blogs) => { // could be broken up into 2 variables to be cleaner
+	const authors = _.map(_.countBy(_.map(blogs, 'author')), function (value, key) {
+		return { author: key, blogs: value }
+	})
+
+	return _.maxBy(authors, 'blogs')
 }
 
-console.log(mostBlogs(bloges))
+const mostLikes = (blogs) => { // i don't know if this task is supposed to be done with lodash
+	const blogList = []
+	blogs.map(blog => {
+		if (!blogList.some(_blog => _blog.author === blog.author)) {
+			blogList.push({ author: blog.author, likes: blog.likes })
+		} else {
+			const blogIndex = blogList.findIndex(blog_ => blog_.author === blog.author)
+			blogList[blogIndex].likes += blog.likes
+		}
+	}) // this whole function looks kinda silly but it works
+	return blogList.find(bleg => bleg.likes === Math.max(...blogList.map(object => object.likes)))
+}
+
+console.log(mostLikes(bloges))
 
 module.exports = {
 	dummy,
 	totalLikes,
 	favoriteBlog,
-	mostBlogs
+	mostBlogs,
+	mostLikes
 }
