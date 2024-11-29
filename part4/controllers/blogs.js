@@ -1,12 +1,12 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/Blog')
 
-blogsRouter.get('/', async (request, response) => {
+blogsRouter.get('', async (request, response) => {
 	const result = await Blog.find({})
 	response.json(result)
 })
 
-blogsRouter.post('/', async(request, response) => {
+blogsRouter.post('', async(request, response) => {
 	if (!request.body.hasOwnProperty('author') || !request.body.hasOwnProperty('url')) {
 		response.status(400).end()
 	}
@@ -29,6 +29,5 @@ blogsRouter.put('/:id', async(request, response) => {
 	)
 	response.status(200).end()
 })
-
 
 module.exports = blogsRouter
