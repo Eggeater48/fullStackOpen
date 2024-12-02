@@ -1,18 +1,19 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/Blog')
 
-blogsRouter.get('', async (request, response) => {
+blogsRouter.get('/', async (request, response) => {
 	const result = await Blog.find({})
 	response.json(result)
 })
 
-blogsRouter.post('', async(request, response) => {
+blogsRouter.post('/', async(request, response) => {
 	if (!request.body.hasOwnProperty('author') || !request.body.hasOwnProperty('url')) {
 		response.status(400).end()
+	} else {
+		const blog = new Blog(request.body)
+		const result = await blog.save()
+		response.status(201).json(result)
 	}
-	const blog = new Blog(request.body)
-	const result = await blog.save()
-	response.status(201).json(result)
 })
 
 blogsRouter.delete('/:id', async(request, response) => {

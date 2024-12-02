@@ -1,0 +1,22 @@
+### Create new user
+# @name Create new user
+POST localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "username": "greg",
+  "name": "greg grog",
+  "password": "EggEating123"
+}
+
+### Creates a new blog
+# @name Create new blog
+POST  localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+  "title": "möh",
+  "author": "me",
+  "url": "/api/blogs",
+  "likes": 3
+}
