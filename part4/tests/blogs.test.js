@@ -84,7 +84,6 @@ describe('Every test featuring getting data', () => {
 	})
 })
 
-
 describe('Every test related to creating', () => {
 	test('create new blog and check if it actually created', async () => {
 		const response = await api

@@ -7,23 +7,25 @@ usersRouter.get('/', async(request, response) => {
 	response.json(result)
 })
 
-// TODO fix whatever error is haunting me causing
-// Weird error where i send a POST request to /api/users and it returns the result from GET /api/blogs
-// No idea whats causing that or how to fix it
-usersRouter.post('/', async(request, response) => {
+usersRouter.post('/', async(request, response, next) => {
 	const { username, name, password } = request.body
 
-	const passwordHash = await bcrypt.hash(password, 10)
+	if (password.length < 3) {
+		response.status(400).json({ 'error' : 'Password is too short (3)' }).end()
+	} else {
+		const passwordHash = await bcrypt.hash(password, 10)
 
-	const user = new Users({
-		username,
-		name,
-		passwordHash
-	})
+		const user = new Users({
+			username,
+			name,
+			passwordHash
+		})
 
-	const savedUser = await user.save()
+		const savedUser = await user.save()
 
-	response.status(201).json(savedUser)
+		response.status(201).json(savedUser).end()
+	}
 })
+
 
 module.exports = usersRouter

@@ -1,13 +1,22 @@
+### GET all users
+# @name Get All Users
+GET localhost:3000/api/users
+
 ### Create new user
 # @name Create new user
 POST localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "username": "greg",
+  "username": "gg",
   "name": "greg grog",
-  "password": "EggEating123"
+  "password": "12345"
 }
+
+
+### Get all blogs
+# @name Get All Blogs
+GET localhost:3000/api/blogs
 
 ### Creates a new blog
 # @name Create new blog
