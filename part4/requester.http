@@ -24,8 +24,9 @@ POST  localhost:3000/api/blogs
 Content-Type: application/json
 
 {
-  "title": "möh",
-  "author": "me",
+  "title": "mingling",
+  "author": "greg",
   "url": "/api/blogs",
-  "likes": 3
+  "likes": 3,
+  "userId": "674eba22ef2cc7f30a10a353"
 }
