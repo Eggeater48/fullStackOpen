@@ -2,31 +2,42 @@
 # @name Get All Users
 GET localhost:3000/api/users
 
+### Get all blogs
+# @name Get All Blogs
+GET localhost:3000/api/blogs
+
 ### Create new user
 # @name Create new user
 POST localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "username": "gg",
-  "name": "greg grog",
-  "password": "12345"
+  "username": "Greg",
+  "name": "Cool Greg",
+  "password": "EggEating"
 }
-
-
-### Get all blogs
-# @name Get All Blogs
-GET localhost:3000/api/blogs
 
 ### Creates a new blog
 # @name Create new blog
 POST  localhost:3000/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczNjQ5NzMwNCwiZXhwIjoxNzM2NTAwOTA0fQ.Sev7vTALgxK6f2GQPqLyXUXZpamNi_NvF2VGZYYoMMM
 
 {
-  "title": "mingling",
-  "author": "greg",
+  "title": "Mingling",
+  "author": "Greg",
   "url": "/api/blogs",
-  "likes": 3,
-  "userId": "674eba22ef2cc7f30a10a353"
+  "likes": 1,
+  "userId": "6780bc0e43fab32f4165d617"
+}
+
+
+### Current users are Hamler and greg
+# @name Try to login
+POST localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "username": "Greg",
+  "password": "EggEating"
 }
