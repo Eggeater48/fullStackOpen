@@ -30,6 +30,8 @@ app.use(middleware.tokenExtractor)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
-app.use('/api/blogs', blogsRouter)
+app.use('/api/blogs', middleware.userExtractor, blogsRouter)
+
+app.use(middleware.errorHandler)
 
 module.exports = app

@@ -132,6 +132,13 @@ describe('Changing data', () => {
 	})
 })
 
+describe('Deleting user', () => {
+	test("Request with no token returns 401", async () => {
+		await api
+			.del('/api/blogs/679354abca8f6ddaeec97aab')
+			.expect(401)
+	})
+})
 
 after(async () => {
 	await mongoose.connection.close()
