@@ -7,8 +7,7 @@ usersRouter.get('/', async(request, response) => {
 	response.json(result)
 })
 
-// TODO fix the post requests
-// basically every other type of request except POST works right now and i have no idea why that is happening
+// Creates a new user
 usersRouter.post('/', async(request, response) => {
 	const { username, name, password } = request.body
 	if (password.length < 3) {
@@ -28,6 +27,5 @@ usersRouter.post('/', async(request, response) => {
 		response.status(201).json(savedUser).end()
 	}
 })
-
 
 module.exports = usersRouter

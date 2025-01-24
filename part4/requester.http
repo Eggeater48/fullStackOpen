@@ -6,6 +6,11 @@ GET localhost:3000/api/users
 # @name Get All Blogs
 GET localhost:3000/api/blogs
 
+### Delete a blog
+# @name Delete a blog
+DELETE localhost:3000/api/blogs/67933af702aa8b2ba1b1d84f
+Authorization: Bearer
+
 ### Create new user
 # @name Create new user
 POST localhost:3000/api/users
@@ -19,14 +24,14 @@ Content-Type: application/json
 
 ### Creates a new blog
 # @name Create new blog
-POST  localhost:3000/api/blogs
+POST localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczNjQ5NzMwNCwiZXhwIjoxNzM2NTAwOTA0fQ.Sev7vTALgxK6f2GQPqLyXUXZpamNi_NvF2VGZYYoMMM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczNzY5OTM3NCwiZXhwIjoxNzM3NzAyOTc0fQ.MXjT0pQ6NbJaIzIFdN0smL6NSR4_qabeKKHCwKdWefY
 
 {
-  "title": "Mingling",
-  "author": "Greg",
-  "url": "/api/blogs",
+  "title": "Delete me!",
+  "author": "To be deleted!",
+  "url": "/api/:id",
   "likes": 1,
   "userId": "6780bc0e43fab32f4165d617"
 }
@@ -41,3 +46,4 @@ Content-Type: application/json
   "username": "Greg",
   "password": "EggEating"
 }
+

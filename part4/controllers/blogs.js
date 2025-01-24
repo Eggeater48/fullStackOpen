@@ -4,14 +4,12 @@ const User = require('../models/User')
 const Blog = require('../models/Blog')
 const jwt = require("jsonwebtoken");
 
-
 blogsRouter.get('/', async (request, response) => {
 	const result = await Blog.find({}).populate('user', { username: 1, name: 1 })
 	response.json(result)
 })
 
-
-blogsRouter.post('/', async(request, response) => {
+blogsRouter.post('/', async (request, response) => {
 	if (!request.body.hasOwnProperty('author') || !request.body.hasOwnProperty('url')) {
 		response.status(400).end()
 	} else {
@@ -40,10 +38,23 @@ blogsRouter.post('/', async(request, response) => {
 })
 
 blogsRouter.delete('/:id', async(request, response) => {
-	await Blog.findByIdAndDelete(
-		request.params.id,
+	const decodedToken = jwt.verify(request.token, process.env.SECRET)
+	if (!decodedToken.id) {
+		return response.status(401).json({ error: 'token invalid' })
+	}
+
+	const blog = await Blog.findById(
+		request.params.id
 	)
-	response.status(204).end()
+
+	if (blog.user.toString() === decodedToken.id) {
+		await Blog.findByIdAndDelete(
+			request.params.id,
+		)
+		response.status(204).end()
+	}
+
+
 })
 
 blogsRouter.put('/:id', async(request, response) => {
