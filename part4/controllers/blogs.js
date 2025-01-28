@@ -2,14 +2,15 @@ const blogsRouter = require('express').Router()
 
 const User = require('../models/User')
 const Blog = require('../models/Blog')
-const jwt = require("jsonwebtoken");
+
+const middleware = require('../utils/middleware');
 
 blogsRouter.get('/', async (request, response) => {
 	const result = await Blog.find({}).populate('user', { username: 1, name: 1 })
 	response.json(result)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 	if (!request.body.hasOwnProperty('author') || !request.body.hasOwnProperty('url')) {
 		response.status(400).end()
 	} else {
@@ -32,7 +33,7 @@ blogsRouter.post('/', async (request, response) => {
 	}
 })
 
-blogsRouter.delete('/:id', async(request, response) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async(request, response) => {
 	const blog = await Blog.findById(
 		request.params.id
 	)
