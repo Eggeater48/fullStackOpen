@@ -18,6 +18,7 @@ Content-Type: application/json
 
 {
   "username": "Greg",
+
   "name": "Cool Greg",
   "password": "EggEating"
 }
@@ -26,7 +27,7 @@ Content-Type: application/json
 # @name Create new blog
 POST localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczNzcwODY5MiwiZXhwIjoxNzM3NzEyMjkyfQ.8A_a3TgaFtm9RE0bbL_qXLuDMz8VW66I_z_U0c9qKXQ
+Authorization: Bearer
 
 {
   "title": "Delete me!",

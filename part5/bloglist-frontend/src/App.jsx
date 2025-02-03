@@ -1,30 +1,88 @@
-import { useState, useEffect } from 'react'
-import blogService from './services/blogs'
-import Login from "./components/Login.jsx";
+import React, { useState, useEffect } from 'react'
+import Blog from "./components/Blog.jsx";
+import loginService from "./services/login.js";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    const user = window.localStorage.getItem('loggedInUser')
+    setUser(user)
   }, [])
 
-  if (user === null) {
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
+    try {
+      const user = await loginService.login({
+        username, password
+      })
+
+      window.localStorage.setItem(
+        'loggedInUser', JSON.stringify(user)
+      )
+
+      setUser(user)
+      setUsername('')
+      setPassword('')
+
+    } catch (exception) {
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedInUser')
+    setUser(null)
+  }
+
+  const LoginForm = () => {
     return (
       <div>
-        <Login></Login>
+
+        <h1>log in to application</h1>
+
+        <form onSubmit={handleLogin}>
+          <div>
+            username
+            <input
+              type="text"
+              value={username}
+              name="Username"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+
+          <div>
+            password
+            <input
+              type="password"
+              value={password}
+              name="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button type="submit">login</button>
+        </form>
       </div>
     )
   }
+
+  return (
+    <div>
+      { user === null && LoginForm() }
+      { user !== null && <Blog user={user} onLogout={handleLogout} /> }
+    </div>
+  )
 }
 
 export default App
 
-/*
-<h2>blogs</h2>
-{blogs.map(blog =>
-  <Blog key={blog.id} blog={blog} />
-)}*/
+
