@@ -27,7 +27,7 @@ Content-Type: application/json
 # @name Create new blog
 POST localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczODkwOTM3MSwiZXhwIjoxNzM4OTEyOTcxfQ.LSerM2XSaPGtfme43yeA0gThSS5YBSL12TqRJmUwEeU
 
 {
   "title": "Delete me!",

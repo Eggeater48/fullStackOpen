@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import Blog from "./components/Blog.jsx";
 import loginService from "./services/login.js";
+import DataDisplay from "./components/DataDisplay.jsx";
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     const user = window.localStorage.getItem('loggedInUser')
-    setUser(user)
+    if (user === "undefined") {
+      window.localStorage.removeItem('loggedInUser')
+    } else {
+      setUser(user)
+    }
   }, [])
 
   const handleLogin = async (event) => {
@@ -30,9 +35,14 @@ const App = () => {
       setPassword('')
 
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setMessage(
+        {
+          message : 'Wrong credentials',
+          type : 'error'
+        }
+      )
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -78,6 +88,7 @@ const App = () => {
   return (
     <div>
       { user === null && LoginForm() }
+      { message === null && <DataDisplay message={message} /> }
       { user !== null && <Blog user={user} onLogout={handleLogout} /> }
     </div>
   )

@@ -6,4 +6,17 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-export default { getAll }
+const createNew = newObject => {
+  const token = JSON.parse(window.localStorage.getItem('loggedInUser'))['token']
+  const request = axios.post(baseUrl, newObject, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).catch(function (error) {
+    return error
+  })
+
+  return request.then(response => response.data)
+}
+
+export default { getAll, createNew }
