@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import blogService from "../services/blogs.js";
 import CreateNew from "./CreateNew.jsx";
 
-const Blog = ( { user, onLogout } ) => {
+const Blog = ( { user, onLogout, messageHandler } ) => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {

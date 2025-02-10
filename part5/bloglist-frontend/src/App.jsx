@@ -18,6 +18,15 @@ const App = () => {
     }
   }, [])
 
+  const messageHandler = async (message) => {
+    setMessage(
+      message
+    )
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -27,15 +36,10 @@ const App = () => {
       })
 
       if (user === undefined) {
-        setMessage({
-          message : "Wrong username or password",
-          type : "error"
+        await messageHandler({
+          message: "Wrong username or password",
+          type: "error"
         })
-        console.log(message)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-
       } else {
         window.localStorage.setItem(
           'loggedInUser', JSON.stringify(user)
@@ -45,66 +49,61 @@ const App = () => {
         setPassword('')
       }
     } catch (exception) {
-      setMessage(
-        {
-          message : 'Wrong credentials',
-          type : 'error'
+      await messageHandler({
+          message: 'Wrong credentials',
+          type: 'error'
         }
       )
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
     }
-  }
 
-  const handleLogout = async (event) => {
-    event.preventDefault()
-    window.localStorage.removeItem('loggedInUser')
-    setUser(null)
-  }
+    const handleLogout = async (event) => {
+      event.preventDefault()
+      await window.localStorage.removeItem('loggedInUser')
+      setUser(null)
+    }
 
-  const LoginForm = () => {
+    const LoginForm = () => {
+      return (
+        <div>
+
+          <h1>log in to application</h1>
+
+          {message !== null && <DataDisplay message={message}/>}
+
+          <form onSubmit={handleLogin}>
+            <div>
+              username
+              <input
+                type="text"
+                value={username}
+                name="Username"
+                onChange={({target}) => setUsername(target.value)}
+              />
+            </div>
+
+            <div>
+              password
+              <input
+                type="password"
+                value={password}
+                name="Password"
+                onChange={({target}) => setPassword(target.value)}
+              />
+            </div>
+            <button type="submit">login</button>
+          </form>
+        </div>
+      )
+    }
+
+
     return (
       <div>
-
-        <h1>log in to application</h1>
-
-        { message !== null && <DataDisplay message={message} /> }
-
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-
-          <div>
-            password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form>
+        {user === null && LoginForm()}
+        {user !== null && <Blog user={user} onLogout={handleLogout} messageHandler={messageHandler}/>}
       </div>
     )
   }
-
-  return (
-    <div>
-      { user === null && LoginForm() }
-      { user !== null && <Blog user={user} onLogout={handleLogout} /> }
-    </div>
-  )
 }
 
 export default App
-
-
