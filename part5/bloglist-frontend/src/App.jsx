@@ -26,14 +26,24 @@ const App = () => {
         username, password
       })
 
-      window.localStorage.setItem(
-        'loggedInUser', JSON.stringify(user)
-      )
+      if (user === undefined) {
+        setMessage({
+          message : "Wrong username or password",
+          type : "error"
+        })
+        console.log(message)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
-
+      } else {
+        window.localStorage.setItem(
+          'loggedInUser', JSON.stringify(user)
+        )
+        setUser(user)
+        setUsername('')
+        setPassword('')
+      }
     } catch (exception) {
       setMessage(
         {
@@ -58,6 +68,8 @@ const App = () => {
       <div>
 
         <h1>log in to application</h1>
+
+        { message !== null && <DataDisplay message={message} /> }
 
         <form onSubmit={handleLogin}>
           <div>
@@ -88,7 +100,6 @@ const App = () => {
   return (
     <div>
       { user === null && LoginForm() }
-      { message === null && <DataDisplay message={message} /> }
       { user !== null && <Blog user={user} onLogout={handleLogout} /> }
     </div>
   )
