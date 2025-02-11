@@ -9,7 +9,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null)
 
-  useEffect(() => {
+  useEffect(() => { // should add automatic logout when the token has expired
     const user = window.localStorage.getItem('loggedInUser')
     if (user === "undefined") {
       window.localStorage.removeItem('loggedInUser')
@@ -55,7 +55,7 @@ const App = () => {
         }
       )
     }
-
+  }
     const handleLogout = async (event) => {
       event.preventDefault()
       await window.localStorage.removeItem('loggedInUser')
@@ -96,14 +96,12 @@ const App = () => {
       )
     }
 
-
     return (
       <div>
         {user === null && LoginForm()}
-        {user !== null && <Blog user={user} onLogout={handleLogout} messageHandler={messageHandler}/>}
+        {user !== null && <Blog user={user} onLogout={handleLogout} messageHandler={messageHandler} message={message}/>}
       </div>
     )
-  }
 }
 
 export default App

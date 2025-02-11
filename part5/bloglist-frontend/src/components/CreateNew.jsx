@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import blogs from "../services/blogs.js";
 
-const CreateNew = () => {
+const CreateNew = ({ messageHandler, blogHandler }) => {
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
@@ -17,13 +17,28 @@ const CreateNew = () => {
 				"id" : window.localStorage.getItem("loggedInUser").id
 			}
 
-			await blogs.createNew(blogObject)
-			const returnThing = {
-				message : `a new blog ${title} by ${author} added`,
-				type : "blog"
+			const result = await blogs.createNew(blogObject)
+
+			if (result === undefined) { // This part looks kinda disgusting but idk what to do really 🐸😥
+				messageHandler({
+						message : 'error',
+						type : "error"
+					}
+				)
+			} else {
+				blogHandler()
+				messageHandler({
+						message : `a new blog ${title} by ${author} added`,
+						type : "blog"
+					}
+				)
 			}
-		} catch (exception) {
-			console.error(exception.response.data)
+		} catch (error) {
+			messageHandler({
+					message : 'Expired Token',
+					type : "error"
+				}
+			)
 		}
 	}
 

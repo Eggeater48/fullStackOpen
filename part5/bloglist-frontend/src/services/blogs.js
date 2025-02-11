@@ -13,7 +13,7 @@ const createNew = newObject => {
       'Authorization': `Bearer ${token}`
     }
   }).catch(function (error) {
-    return error
+    return error.response.data
   })
 
   return request.then(response => response.data)

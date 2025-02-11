@@ -11,15 +11,14 @@ GET localhost:3000/api/blogs
 DELETE localhost:3000/api/blogs/67933af702aa8b2ba1b1d84f
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczNzcwNDkzMSwiZXhwIjoxNzM3NzA4NTMxfQ.okU8XJF1ML75Qf1-NiAlsVYaQZo97smSroVWbaT75zw
 
-### Create new user
+### Create new user 67ab2b761f5552c93176eeef
 # @name Create new user
 POST localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "username": "Greg",
-
-  "name": "Cool Greg",
+  "username": "delete",
+  "name": "delete me",
   "password": "EggEating"
 }
 

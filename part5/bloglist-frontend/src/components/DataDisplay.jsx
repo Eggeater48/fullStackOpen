@@ -1,5 +1,4 @@
 const DataDisplay = ({ message }) => {
-
 	if (message.type === 'blog') {
 		return (
 			<div className={'blog-'}>
