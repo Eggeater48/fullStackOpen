@@ -26,7 +26,7 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 					}
 				)
 			} else {
-				blogHandler()
+				blogHandler(blogObject)
 				messageHandler({
 						message : `a new blog ${title} by ${author} added`,
 						type : "blog"

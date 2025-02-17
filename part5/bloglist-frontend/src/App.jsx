@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from "./components/Blog.jsx";
 import loginService from "./services/login.js";
-import DataDisplay from "./components/DataDisplay.jsx";
+import Login from "./components/Login.jsx";
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -14,7 +14,7 @@ const App = () => {
     if (user === "undefined") {
       window.localStorage.removeItem('loggedInUser')
     } else {
-      setUser(user)
+      setUser(JSON.parse(user))
     }
   }, [])
 
@@ -62,44 +62,20 @@ const App = () => {
       setUser(null)
     }
 
-    const LoginForm = () => {
-      return (
-        <div>
-
-          <h1>log in to application</h1>
-
-          {message !== null && <DataDisplay message={message}/>}
-
-          <form onSubmit={handleLogin}>
-            <div>
-              username
-              <input
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({target}) => setUsername(target.value)}
-              />
-            </div>
-
-            <div>
-              password
-              <input
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({target}) => setPassword(target.value)}
-              />
-            </div>
-            <button type="submit">login</button>
-          </form>
-        </div>
-      )
-    }
-
     return (
       <div>
-        {user === null && LoginForm()}
-        {user !== null && <Blog user={user} onLogout={handleLogout} messageHandler={messageHandler} message={message}/>}
+        {user === null && <Login
+          handleLogin={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          message={message}
+        />}
+        {user !== null && <Blog
+          user={user.name}
+          onLogout={handleLogout}
+          messageHandler={messageHandler}
+          message={message}
+        />}
       </div>
     )
 }

@@ -5,6 +5,9 @@ import DataDisplay from "./DataDisplay.jsx";
 
 const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const [blogs, setBlogs] = useState([])
+  const [createVisible, setCreateVisible] = useState(false)
+  const hideWhenVisible = { display : createVisible ? 'none' : '' }
+  const showWhenVisible = { display : createVisible ? '' : 'none' }
 
   useEffect(() => {
   blogService.getAll().then(blogs =>
@@ -14,6 +17,7 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
 
   const handleNew = (blog) => {
     setBlogs(blogs.concat(blog))
+    setCreateVisible(false)
   }
 
   return (
@@ -23,13 +27,23 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
       {message !== null && <DataDisplay message={message}/>}
 
       <p>
-        {user.name} logged in <button onClick={onLogout}>logout</button>
+        {user} logged in <button onClick={onLogout}>logout</button>
       </p>
 
-      <CreateNew messageHandler={messageHandler} blogHandler={handleNew} />
+      <div style={hideWhenVisible}>
+        <button onClick={() => setCreateVisible(true)}>create new blog</button>
+      </div>
+
+      <div style={showWhenVisible}>
+        <CreateNew
+          messageHandler={messageHandler}
+          blogHandler={handleNew}
+        />
+        <button onClick={() => setCreateVisible(false)}>cancel</button>
+      </div>
 
       {blogs.map(blog =>
-        <div key={blog.id}>{blog.title} {blog.author}</div>
+        <div key={blog.id} className={'blog'}>{blog.title} {blog.author}</div>
       )}
 
     </div>
