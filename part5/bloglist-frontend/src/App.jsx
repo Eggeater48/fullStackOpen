@@ -56,11 +56,11 @@ const App = () => {
       )
     }
   }
-    const handleLogout = async (event) => {
-      event.preventDefault()
-      await window.localStorage.removeItem('loggedInUser')
-      setUser(null)
-    }
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    await window.localStorage.removeItem('loggedInUser')
+    setUser(null)
+  }
 
     return (
       <div>

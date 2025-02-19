@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import blogService from "../services/blogs.js";
 import CreateNew from "./CreateNew.jsx";
 import DataDisplay from "./DataDisplay.jsx";
+import Togglable from "./Togglable.jsx";
+import Bloggable from "./Bloggable.jsx";
 
 const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const [blogs, setBlogs] = useState([])
-  const [createVisible, setCreateVisible] = useState(false)
-  const hideWhenVisible = { display : createVisible ? 'none' : '' }
-  const showWhenVisible = { display : createVisible ? '' : 'none' }
+
+  const blogFormRef = useRef()
+  const blogRef = useRef()
 
   useEffect(() => {
   blogService.getAll().then(blogs =>
@@ -17,7 +19,7 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
 
   const handleNew = (blog) => {
     setBlogs(blogs.concat(blog))
-    setCreateVisible(false)
+    blogFormRef.current.toggleVisibility()
   }
 
   return (
@@ -30,23 +32,19 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
         {user} logged in <button onClick={onLogout}>logout</button>
       </p>
 
-      <div style={hideWhenVisible}>
-        <button onClick={() => setCreateVisible(true)}>create new blog</button>
-      </div>
-
-      <div style={showWhenVisible}>
+      <Togglable buttonLabel={'create new blog'} ref={blogFormRef}>
         <CreateNew
           messageHandler={messageHandler}
           blogHandler={handleNew}
         />
-        <button onClick={() => setCreateVisible(false)}>cancel</button>
-      </div>
+      </Togglable>
 
       {blogs.map(blog =>
-        <div key={blog.id} className={'blog'}>{blog.title} {blog.author}</div>
+        <Bloggable ref={blogRef} blog={blog}></Bloggable>
       )}
 
     </div>
   )
 }
-  export default Blog
+
+export default Blog
