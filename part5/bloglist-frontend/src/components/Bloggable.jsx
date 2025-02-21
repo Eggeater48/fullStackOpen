@@ -1,6 +1,6 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState } from 'react'
 
-const Bloggable = forwardRef((props, refs) => {
+const Bloggable = (( { blog, likeHandler  } ) => {
 	const [visible, setVisible] = useState(false)
 	const showWhenVisible = { display: visible ? '' : 'none' }
 
@@ -8,24 +8,16 @@ const Bloggable = forwardRef((props, refs) => {
 		setVisible(!visible)
 	}
 
-	useImperativeHandle(refs, () => {
-		return {
-			toggleVisibility,
-		}
-	})
 	return (
-		<div key={props.blog.id} className={'blog'}>
-			{props.blog.title} {props.blog.author}
+		<>
 			<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
-
 			<div style={showWhenVisible}>
-				{props.blog.url}<br/>
-				likes {props.blog.likes}
-				<button onClick={() => console.log(props.blog)}>like</button>
-				<br/>
-				{props.blog.user}
+				{blog.url}<br/>
+				likes {blog.likes}
+				<button onClick={() => likeHandler(blog)}>like</button>
+				<br/>{blog.user.length > 0 && blog.user[0].name}
 			</div>
-		</div>
+		</>
 	)
 })
 

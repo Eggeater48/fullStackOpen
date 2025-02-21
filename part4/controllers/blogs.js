@@ -48,12 +48,12 @@ blogsRouter.delete('/:id', middleware.userExtractor, async(request, response) =>
 	}
 })
 
-blogsRouter.put('/:id', async(request, response) => {
-	await Blog.findByIdAndUpdate(
+blogsRouter.put('/:id', middleware.userExtractor ,async(request, response) => {
+	const result = await Blog.findByIdAndUpdate(
 		request.params.id,
 		request.body
 	)
-	response.status(200).end()
+	response.status(200).json(result).end()
 })
 
 module.exports = blogsRouter

@@ -21,7 +21,7 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 
 			if (result === undefined) { // This part looks kinda disgusting but idk what to do really 🐸😥
 				messageHandler({
-						message : 'error',
+						message : 'Error : Expired Token, please log back in',
 						type : "error"
 					}
 				)

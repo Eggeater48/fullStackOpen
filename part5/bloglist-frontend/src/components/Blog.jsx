@@ -9,7 +9,6 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const [blogs, setBlogs] = useState([])
 
   const blogFormRef = useRef()
-  const blogRef = useRef()
 
   useEffect(() => {
   blogService.getAll().then(blogs =>
@@ -20,6 +19,27 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const handleNew = (blog) => {
     setBlogs(blogs.concat(blog))
     blogFormRef.current.toggleVisibility()
+  }
+
+  const handleLike = async (blog) => {
+    const updatedBlog = {
+      user : blog.user[0].id,
+      likes : blog.likes++,
+      author : blog.author,
+      title : blog.title,
+      url : blog.url
+    }
+
+    const result = await blogService.addLike(updatedBlog)
+
+    if (result !== undefined) {
+      console.log(result)
+    } else {
+      messageHandler({
+        'message' : 'Backend Error',
+        'type' : 'error'
+      })
+    }
   }
 
   return (
@@ -40,9 +60,11 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Bloggable ref={blogRef} blog={blog}></Bloggable>
+        <div className={'blog'} key={blog.id}>
+          {blog.title} {blog.author}
+          <Bloggable blog={blog} likeHandler={handleLike}></Bloggable>
+        </div>
       )}
-
     </div>
   )
 }

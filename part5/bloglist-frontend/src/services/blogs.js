@@ -19,4 +19,17 @@ const createNew = newObject => {
   return request.then(response => response.data)
 }
 
-export default { getAll, createNew }
+const addLike = newObject => {
+  const token = JSON.parse(window.localStorage.getItem('loggedInUser'))['token']
+  const request = axios.put(`${baseUrl}/${newObject.id}`, newObject, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).catch(function (error) {
+    return error.response.data
+  })
+
+  return request.then(response => response.data)
+}
+
+export default { getAll, createNew, addLike }
