@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import blogs from "../services/blogs.js";
+import PropTypes from "prop-types";
 
 const CreateNew = ({ messageHandler, blogHandler }) => {
 	const [title, setTitle] = useState('')
@@ -79,6 +80,11 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 			</form>
 		</div>
 	)
+}
+
+CreateNew.propTypes = {
+	messageHandler : PropTypes.func.isRequired,
+	blogHandler : PropTypes.func.isRequired
 }
 
 export default CreateNew

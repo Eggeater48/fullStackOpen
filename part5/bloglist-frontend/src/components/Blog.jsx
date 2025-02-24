@@ -4,13 +4,14 @@ import CreateNew from "./CreateNew.jsx";
 import DataDisplay from "./DataDisplay.jsx";
 import Togglable from "./Togglable.jsx";
 import Bloggable from "./Bloggable.jsx";
+import PropTypes from "prop-types";
 
 const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const [blogs, setBlogs] = useState([])
 
   const blogFormRef = useRef()
 
-  useEffect(() => {
+  useEffect(() => { // TODO make this rerender every time likes gets increased
     blogService.getAll().then(blogs => {
     const sortedBlogs = blogs.toSorted((a, b) => {
       return b.likes - a.likes
@@ -94,6 +95,13 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
       )}
     </div>
   )
+}
+
+Blog.propTypes = {
+  user: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  messageHandler: PropTypes.func.isRequired,
+  message: PropTypes.object.isRequired
 }
 
 export default Blog

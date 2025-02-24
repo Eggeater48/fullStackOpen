@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const DataDisplay = ({ message }) => {
 	if (message.type === 'blog') {
 		return (
@@ -13,7 +15,10 @@ const DataDisplay = ({ message }) => {
 			</div>
 		)
 	}
+}
 
+DataDisplay.propTypes = {
+	message: PropTypes.object.isRequired
 }
 
 export default DataDisplay

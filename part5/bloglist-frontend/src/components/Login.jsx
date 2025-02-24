@@ -1,5 +1,6 @@
 import DataDisplay from "./DataDisplay.jsx";
 import React from "react";
+import PropTypes from "prop-types";
 
 const Login = ({
    handleLogin,
@@ -42,5 +43,11 @@ const Login = ({
 	)
 }
 
+Login.propTypes = {
+	handleLogin : PropTypes.func.isRequired ,
+	handleUsernameChange : PropTypes.func.isRequired ,
+	handlePasswordChange : PropTypes.func.isRequired ,
+	message : PropTypes.object.isRequired ,
+}
 
 export default Login
