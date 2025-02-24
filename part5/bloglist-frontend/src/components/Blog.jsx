@@ -25,9 +25,12 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
   }
 
   const handleDelete = async (blog) => {
-    console.log(blog)
-    const result = await blogService.deleteBlog(blog.id)
-    console.log(result)
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(blog.id)
+      setBlogs(
+        blogs.filter(a => a.id !== blog.id)
+      )
+    }
   }
 
   const handleLike = async (blog) => {
