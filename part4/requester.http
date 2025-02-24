@@ -26,13 +26,13 @@ Content-Type: application/json
 # @name Create new blog
 POST localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTczODkwOTM3MSwiZXhwIjoxNzM4OTEyOTcxfQ.LSerM2XSaPGtfme43yeA0gThSS5YBSL12TqRJmUwEeU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdyZWciLCJpZCI6IjY3ODBiYzBlNDNmYWIzMmY0MTY1ZDYxNyIsImlhdCI6MTc0MDM4Njg5NSwiZXhwIjoxNzQwMzkwNDk1fQ.cS0IOnZ9YRGhXhN0WKo5glJBW9gb59JNWv5Q18RFD50
 
 {
-  "title": "Delete me!",
-  "author": "To be deleted!",
-  "url": "/api/:id",
-  "likes": 1,
+  "title": "g",
+  "author": "g",
+  "url": "g",
+  "likes": 0,
   "userId": "6780bc0e43fab32f4165d617"
 }
 

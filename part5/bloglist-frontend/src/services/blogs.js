@@ -32,4 +32,16 @@ const addLike = newObject => {
   return request.then(response => response.data)
 }
 
-export default { getAll, createNew, addLike }
+const deleteBlog = id => {
+  const token = JSON.parse(window.localStorage.getItem('loggedInUser'))['token']
+  const request =axios.delete(`${baseUrl}/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).catch(function (error) {
+      return error.response.data
+    })
+  return request.then(response => response.data)
+}
+
+export default { getAll, createNew, addLike, deleteBlog }

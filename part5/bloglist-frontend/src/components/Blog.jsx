@@ -11,9 +11,12 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-  blogService.getAll().then(blogs =>
-    setBlogs(blogs)
-    )
+    blogService.getAll().then(blogs => {
+    const sortedBlogs = blogs.toSorted((a, b) => {
+      return b.likes - a.likes
+    })
+    setBlogs(sortedBlogs)
+    })
   }, [])
 
   const handleNew = (blog) => {
@@ -21,19 +24,40 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
     blogFormRef.current.toggleVisibility()
   }
 
+  const handleDelete = async (blog) => {
+    console.log(blog)
+    const result = await blogService.deleteBlog(blog.id)
+    console.log(result)
+  }
+
   const handleLike = async (blog) => {
     const updatedBlog = {
-      user : blog.user[0].id,
-      likes : blog.likes++,
+      user :  blog.user[0].id,
+      likes : blog.likes + 1,
       author : blog.author,
       title : blog.title,
-      url : blog.url
+      url : blog.url,
+      id : blog.id
     }
 
     const result = await blogService.addLike(updatedBlog)
 
     if (result !== undefined) {
-      console.log(result)
+      const newBlog = blogs.map((blog, i) => {
+        if (i === blogs.findIndex(x => x.title === result.title)) {
+          return {
+            author : blog.author,
+            id : blog.id,
+            likes : blog.likes + 1,
+            title : blog.title,
+            url : blog.url,
+            user : blog.user
+          }
+        } else {
+          return blog
+        }
+      })
+      setBlogs(newBlog)
     } else {
       messageHandler({
         'message' : 'Backend Error',
@@ -62,7 +86,7 @@ const Blog = ( { user, onLogout, messageHandler, message } ) => {
       {blogs.map(blog =>
         <div className={'blog'} key={blog.id}>
           {blog.title} {blog.author}
-          <Bloggable blog={blog} likeHandler={handleLike}></Bloggable>
+          <Bloggable blog={blog} likeHandler={handleLike} deleteHandler={handleDelete}></Bloggable>
         </div>
       )}
     </div>

@@ -16,7 +16,6 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 				"likes" : 0,
 				"id" : window.localStorage.getItem("loggedInUser").id
 			}
-
 			const result = await blogs.createNew(blogObject)
 
 			if (result === undefined) { // This part looks kinda disgusting but idk what to do really 🐸😥
@@ -26,7 +25,7 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 					}
 				)
 			} else {
-				blogHandler(blogObject)
+				blogHandler(result)
 				messageHandler({
 						message : `a new blog ${title} by ${author} added`,
 						type : "blog"
