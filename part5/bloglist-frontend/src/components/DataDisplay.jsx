@@ -7,8 +7,7 @@ const DataDisplay = ({ message }) => {
 				{message.message}
 			</div>
 		)
-	}
-	else if (message.type === 'error') {
+	} else if (message.type === 'error') {
 		return (
 			<div className={'error-'}>
 				{message.message}

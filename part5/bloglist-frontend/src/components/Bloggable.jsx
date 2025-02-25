@@ -10,7 +10,7 @@ const Bloggable = (( { blog, likeHandler, deleteHandler  } ) => {
 	}
 
 	return (
-		<>
+		<div>
 			<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
 			<div style={showWhenVisible}>
 				{blog.url}<br/>
@@ -19,14 +19,12 @@ const Bloggable = (( { blog, likeHandler, deleteHandler  } ) => {
 				<br/>{blog.user.length > 0 && blog.user[0].name}
 				<br/><button onClick={() => deleteHandler(blog)}>remove</button>
 			</div>
-		</>
+		</div>
 	)
 })
 
 Bloggable.propTypes = {
 	blog: PropTypes.object.isRequired,
-	likeHandler: PropTypes.func.isRequired,
-	deleteHandler:PropTypes.func.isRequired
 }
 
 export default Bloggable

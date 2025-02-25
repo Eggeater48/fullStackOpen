@@ -12,7 +12,6 @@ const Login = ({
 	}) => {
 	return (
 		<div>
-
 			<h1>log in to application</h1>
 
 			{message !== null && <DataDisplay message={message}/>}

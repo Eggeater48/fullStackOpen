@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Blog from "./components/Blog.jsx";
 import loginService from "./services/login.js";
 import Login from "./components/Login.jsx";
+import blogService from "./services/blogs.js";
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null)
+  const [blogs, setBlogs] = useState([])
+  const blogFormRef = useRef()
 
   useEffect(() => { // should add automatic logout when the token has expired
     const user = window.localStorage.getItem('loggedInUser')
@@ -17,6 +20,65 @@ const App = () => {
       setUser(JSON.parse(user))
     }
   }, [])
+
+  useEffect(() => { // TODO make this rerender every time likes gets increased
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.toSorted((a, b) => {
+        return b.likes - a.likes
+      })
+      setBlogs(sortedBlogs)
+    })
+  }, []) // DO NOT IN ANY CIRCUMSTANCE PUT BLOGS INTO DEPS
+
+  const handleNew = (blog) => {
+    setBlogs(blogs.concat(blog))
+    blogFormRef.current.toggleVisibility()
+  }
+
+  const handleDelete = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(blog.id)
+      setBlogs(
+        blogs.filter(a => a.id !== blog.id)
+      )
+    }
+  }
+
+  const handleLike = async (blog) => {
+    const updatedBlog = {
+      user :  blog.user[0].id,
+      likes : blog.likes + 1,
+      author : blog.author,
+      title : blog.title,
+      url : blog.url,
+      id : blog.id
+    }
+
+    const result = await blogService.addLike(updatedBlog)
+
+    if (result !== undefined) {
+      const newBlog = blogs.map((blog, i) => {
+        if (i === blogs.findIndex(x => x.title === result.title)) {
+          return {
+            author : blog.author,
+            id : blog.id,
+            likes : blog.likes + 1,
+            title : blog.title,
+            url : blog.url,
+            user : blog.user
+          }
+        } else {
+          return blog
+        }
+      })
+      setBlogs(newBlog)
+    } else {
+      await messageHandler({
+        'message': 'Backend Error',
+        'type': 'error'
+      })
+    }
+  }
 
   const messageHandler = async (message) => {
     setMessage(
@@ -63,22 +125,27 @@ const App = () => {
     setUser(null)
   }
 
-    return (
-      <div>
-        {user === null && <Login
-          handleLogin={handleLogin}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          message={message}
-        />}
-        {user !== null && <Blog
-          user={user.name}
-          onLogout={handleLogout}
-          messageHandler={messageHandler}
-          message={message}
-        />}
-      </div>
-    )
+  return (
+    <div>
+      {user === null && <Login
+        handleLogin={handleLogin}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        message={message}
+      />}
+      {user !== null && <Blog
+        blogs={blogs}
+        user={user.name}
+        onLogout={handleLogout}
+        messageHandler={messageHandler}
+        message={message}
+        handleNew={handleNew}
+        handleDelete={handleDelete}
+        handleLike={handleLike}
+        ref={blogFormRef}
+      />}
+    </div>
+  )
 }
 
 export default App
