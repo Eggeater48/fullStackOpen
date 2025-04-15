@@ -10,6 +10,7 @@ const Login = ({
    password,
 	 message
 	}) => {
+
 	return (
 		<div>
 			<h1>log in to application</h1>
@@ -46,7 +47,6 @@ Login.propTypes = {
 	handleLogin : PropTypes.func.isRequired ,
 	handleUsernameChange : PropTypes.func.isRequired ,
 	handlePasswordChange : PropTypes.func.isRequired ,
-	message : PropTypes.object.isRequired ,
 }
 
 export default Login

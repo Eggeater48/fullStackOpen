@@ -14,10 +14,9 @@ const Blog = ({
     handleNew,
     handleDelete,
     handleLike,
-    ref
   }) => {
   return (
-    <div>
+    <>
       <h2>blogs</h2>
 
       {message !== null && <DataDisplay message={message}/>}
@@ -26,7 +25,7 @@ const Blog = ({
         {user} logged in <button onClick={onLogout}>logout</button>
       </p>
 
-      <Togglable buttonLabel={'create new blog'} ref={ref}>
+      <Togglable buttonLabel={'create new blog'}>
         <CreateNew
           messageHandler={messageHandler}
           blogHandler={handleNew}
@@ -34,18 +33,18 @@ const Blog = ({
       </Togglable>
 
       {blogs.map(blog =>
-        <div className={'blog'} key={blog.id}>
+        <div className={'blog'} key={blog.id} data-testid={'custom-element'}>
           {blog.title} {blog.author}
           <Bloggable blog={blog} likeHandler={handleLike} deleteHandler={handleDelete}></Bloggable>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
 Blog.propTypes = {
   user: PropTypes.string.isRequired,
-  blogs: PropTypes.object.isRequired
+  blogs: PropTypes.array.isRequired
 }
 
 export default Blog

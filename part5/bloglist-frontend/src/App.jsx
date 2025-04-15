@@ -16,6 +16,7 @@ const App = () => {
     const user = window.localStorage.getItem('loggedInUser')
     if (user === "undefined") {
       window.localStorage.removeItem('loggedInUser')
+      setUser(null)
     } else {
       setUser(JSON.parse(user))
     }
@@ -28,7 +29,7 @@ const App = () => {
       })
       setBlogs(sortedBlogs)
     })
-  }, []) // DO NOT IN ANY CIRCUMSTANCE PUT BLOGS INTO DEPS
+  }, [])
 
   const handleNew = (blog) => {
     setBlogs(blogs.concat(blog))
@@ -81,9 +82,7 @@ const App = () => {
   }
 
   const messageHandler = async (message) => {
-    setMessage(
-      message
-    )
+    setMessage(message)
     setTimeout(() => {
       setMessage(null)
     }, 5000)
@@ -142,7 +141,6 @@ const App = () => {
         handleNew={handleNew}
         handleDelete={handleDelete}
         handleLike={handleLike}
-        ref={blogFormRef}
       />}
     </div>
   )
