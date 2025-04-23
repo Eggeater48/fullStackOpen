@@ -1,9 +1,9 @@
-import React from "react";
 import CreateNew from "./CreateNew.jsx";
 import DataDisplay from "./DataDisplay.jsx";
 import Togglable from "./Togglable.jsx";
 import Bloggable from "./Bloggable.jsx";
 import PropTypes from "prop-types";
+import blogService from "../services/blogs.js";
 
 const Blog = ({
     blogs,
@@ -13,8 +13,9 @@ const Blog = ({
     message,
     handleNew,
     handleDelete,
-    handleLike,
+    handleLike
   }) => {
+
   return (
     <>
       <h2>blogs</h2>
