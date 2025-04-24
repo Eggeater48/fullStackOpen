@@ -1,29 +1,31 @@
-import React, { useState } from 'react'
-import PropTypes from "prop-types";
+import {useState} from "react";
 
-const Bloggable = (( { blog, likeHandler, deleteHandler  } ) => {
-	const [visible, setVisible] = useState(false)
+const Bloggable = ( blog, likeHandler, deleteHandler ) => {
+	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleVisibility = () => {
-		setVisible(!visible)
+		setShowDetails(!showDetails)
 	}
 
 	return (
-		<div>
-			<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
-			{visible === true && <div>
-				{blog.url}<br/>
-				likes {blog.likes}
-				<button onClick={() => likeHandler(blog)}>like</button>
-				<br/>{blog.user.length > 0 && blog.user[0].name}
-				<br/><button onClick={() => deleteHandler(blog)}>remove</button>
-			</div>}
-		</div>
-	)
-})
+		<>
+			<button
+				onClick={toggleVisibility}
+			>{!showDetails ? 'view' : 'hide'}
+			</button>
 
-Bloggable.propTypes = {
-	blog: PropTypes.object.isRequired,
+			{showDetails === true &&
+				<div>
+					{blog.url}<br/>
+					likes {blog.likes}
+					<button onClick={() => likeHandler(blog)}>like</button>
+					<br/>{blog.user.length > 0 && blog.user[0].name}
+					<br/>
+					<button onClick={() => deleteHandler(blog)}>remove</button>
+				</div>
+			}
+		</>
+	)
 }
 
 export default Bloggable

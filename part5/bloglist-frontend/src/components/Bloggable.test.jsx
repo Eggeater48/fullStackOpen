@@ -110,4 +110,24 @@ test('5.15 If like button is clicked twice, check that the event handler is call
 	expect(handleLike).toHaveBeenCalledTimes(2)
 })
 
-test('5.16 Create ')
+test('5.16 Create a blog and see if the handler receives the right data', async () => {
+	const newBlog = [
+		{
+			"title": "The title",
+			"author": "The author",
+			"url": "The url",
+			"user": [
+				{
+					"username": "Greg",
+					"name": "Cool Greg",
+					"id": "6780bc0e43fab32f4165d617"
+				}
+			],
+			"likes": 1,
+			"id": "67b5d4dbd2be02496f188526"
+		},
+	]
+
+
+
+})

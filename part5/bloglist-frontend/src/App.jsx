@@ -3,6 +3,9 @@ import Blog from "./components/Blog.jsx";
 import loginService from "./services/login.js";
 import Login from "./components/Login.jsx";
 import blogService from "./services/blogs.js";
+import Togglable from "./components/Togglable.jsx";
+import CreateNew from "./components/CreateNew.jsx";
+import DataDisplay from "./components/DataDisplay.jsx";
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -10,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
+
   const blogFormRef = useRef()
 
   useEffect(() => { // should add automatic logout when the token has expired
@@ -132,16 +136,34 @@ const App = () => {
         handlePasswordChange={({ target }) => setPassword(target.value)}
         message={message}
       />}
-      {user !== null && <Blog
-        blogs={blogs}
-        user={user.name}
-        onLogout={handleLogout}
-        messageHandler={messageHandler}
-        message={message}
-        handleNew={handleNew}
-        handleDelete={handleDelete}
-        handleLike={handleLike}
-      />}
+
+      {user !== null &&
+        <div>
+          <h2>blogs</h2>
+
+          {message !== null && <DataDisplay message={message}/>}
+
+          <p>
+            {user.name} logged in <button onClick={handleLogout}>logout</button>
+          </p>
+
+          <Togglable
+            buttonLabel={'create new blog'}
+            cancelButtonLabel={'cancel'}
+            ref={blogFormRef}>
+            <CreateNew
+              messageHandler={messageHandler}
+              blogHandler={handleNew}
+              data-testid={'newBlog'}
+            />
+          </Togglable>
+
+          <Blog
+            blogs={blogs}
+            handleDelete={handleDelete}
+            handleLike={handleLike}
+          />
+        </div>}
     </div>
   )
 }

@@ -33,11 +33,12 @@ const CreateNew = ({ messageHandler, blogHandler }) => {
 				)
 			}
 		} catch (error) {
-			messageHandler({
+			console.log(error)
+			/*messageHandler({
 					message : 'Expired Token',
 					type : "error"
 				}
-			)
+			)*/
 		}
 	}
 
