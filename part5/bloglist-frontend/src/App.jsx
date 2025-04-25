@@ -16,17 +16,15 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  useEffect(() => { // should add automatic logout when the token has expired
+  useEffect(() => {
     const user = window.localStorage.getItem('loggedInUser')
     if (user === "undefined") {
       window.localStorage.removeItem('loggedInUser')
       setUser(null)
-    } else {
-      setUser(JSON.parse(user))
     }
   }, [])
 
-  useEffect(() => { // TODO make this rerender every time likes gets increased
+  useEffect(() => {
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.toSorted((a, b) => {
         return b.likes - a.likes
@@ -35,9 +33,33 @@ const App = () => {
     })
   }, [])
 
-  const handleNew = (blog) => {
-    setBlogs(blogs.concat(blog))
-    blogFormRef.current.toggleVisibility()
+  const handleNew = async (blogObject) => {
+    try {
+      const result = await blogService.createNew(blogObject)
+
+      if (result === undefined) { // This part looks kinda disgusting but idk what to do really 🐸😥
+        messageHandler({
+            message : 'Error : Expired Token, please log back in',
+            type : "error"
+          }
+        )
+      } else {
+        setBlogs(blogs.concat(result))
+        blogFormRef.current.toggleVisibility()
+        messageHandler({
+            message : `a new blog ${blogObject.title} by ${blogObject.author} added`,
+            type : "blog"
+          }
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      messageHandler({
+          message : 'Internal Server Error',
+          type : "error"
+        }
+      )
+    }
   }
 
   const handleDelete = async (blog) => {
@@ -85,7 +107,7 @@ const App = () => {
     }
   }
 
-  const messageHandler = async (message) => {
+  const messageHandler = (message) => {
     setMessage(message)
     setTimeout(() => {
       setMessage(null)
@@ -152,8 +174,7 @@ const App = () => {
             cancelButtonLabel={'cancel'}
             ref={blogFormRef}>
             <CreateNew
-              messageHandler={messageHandler}
-              blogHandler={handleNew}
+              handleNew={handleNew}
               data-testid={'newBlog'}
             />
           </Togglable>

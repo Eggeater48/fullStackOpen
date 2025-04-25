@@ -21,10 +21,7 @@ test('5.13 Displays everything else but URL or number of likes by default', () =
 		},
 	]
 
-	const user = "greg"
-
-
-	render(<Blog blogs={blog} user={user} message={null}  />)
+	render(<Blog blogs={blog} />)
 
 	const element = screen.getByTestId('custom-element')
 
@@ -52,12 +49,8 @@ test('5.14 Only displays blog URL and number of likes after click', async () => 
 		},
 	]
 
-	const userName = "greg2"
-
-	const mockHandler = vi.fn()
-
 	render(
-		<Blog blogs={blog} user={userName} message={null} />
+		<Blog blogs={blog} />
 	)
 
 	const user = userEvent.setup()
@@ -88,14 +81,10 @@ test('5.15 If like button is clicked twice, check that the event handler is call
 		},
 	]
 
-	const userName = 'greg3'
-
 	const mockHandler = vi.fn()
 
-	const handleLike = vi.fn()
-
 	render(
-		<Blog blogs={blog} user={userName} message={null} handleLike={handleLike} />
+		<Blog blogs={blog} handleLike={mockHandler} />
 	)
 
 	const user = userEvent.setup()
@@ -107,27 +96,6 @@ test('5.15 If like button is clicked twice, check that the event handler is call
 	await user.click(button2)
 	await user.click(button2)
 
-	expect(handleLike).toHaveBeenCalledTimes(2)
+	expect(mockHandler.mock.calls).toHaveLength(2)
 })
 
-test('5.16 Create a blog and see if the handler receives the right data', async () => {
-	const newBlog = [
-		{
-			"title": "The title",
-			"author": "The author",
-			"url": "The url",
-			"user": [
-				{
-					"username": "Greg",
-					"name": "Cool Greg",
-					"id": "6780bc0e43fab32f4165d617"
-				}
-			],
-			"likes": 1,
-			"id": "67b5d4dbd2be02496f188526"
-		},
-	]
-
-
-
-})

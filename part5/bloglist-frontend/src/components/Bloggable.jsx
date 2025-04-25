@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const Bloggable = ( blog, likeHandler, deleteHandler ) => {
+const Bloggable = ( { blog, likeHandler, deleteHandler } ) => {
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleVisibility = () => {
@@ -14,14 +14,13 @@ const Bloggable = ( blog, likeHandler, deleteHandler ) => {
 			>{!showDetails ? 'view' : 'hide'}
 			</button>
 
-			{showDetails === true &&
+			{showDetails &&
 				<div>
 					{blog.url}<br/>
 					likes {blog.likes}
 					<button onClick={() => likeHandler(blog)}>like</button>
 					<br/>{blog.user.length > 0 && blog.user[0].name}
-					<br/>
-					<button onClick={() => deleteHandler(blog)}>remove</button>
+					<br/><button onClick={() => deleteHandler(blog)}>remove</button>
 				</div>
 			}
 		</>

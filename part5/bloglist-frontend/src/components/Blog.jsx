@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import Bloggable from "./Bloggable.jsx";
 
 const Blog = ( { blogs, handleLike, handleDelete } ) => {
-
   return (
     <>
       {blogs.map(blog =>
@@ -14,7 +13,6 @@ const Blog = ( { blogs, handleLike, handleDelete } ) => {
             likeHandler={handleLike}
             deleteHandler={handleDelete}
           />
-
         </div>)}
     </>
   )
