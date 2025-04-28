@@ -12,7 +12,6 @@ const CreateNew = ( { handleNew } ) => {
 			"author" : author,
 			"url" : url,
 			"likes" : 0,
-			"id" : window.localStorage.getItem("loggedInUser").id
 		}
 		handleNew(blogObject)
 	}
@@ -28,6 +27,7 @@ const CreateNew = ( { handleNew } ) => {
 						value={title}
 						name="title"
 						onChange={({ target }) => setTitle(target.value)}
+						data-testid={'title-input'}
 					/>
 				</div>
 
@@ -38,6 +38,7 @@ const CreateNew = ( { handleNew } ) => {
 						value={author}
 						name="author"
 						onChange={({ target }) => setAuthor(target.value)}
+						data-testid={'author-input'}
 					/>
 				</div>
 
@@ -48,6 +49,7 @@ const CreateNew = ( { handleNew } ) => {
 						value={url}
 						name="url"
 						onChange={({ target }) => setUrl(target.value)}
+						data-testid={'url-input'}
 					/>
 				</div>
 
