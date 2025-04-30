@@ -37,6 +37,8 @@ const App = () => {
     try {
       const result = await blogService.createNew(blogObject)
 
+      console.log(result)
+
       if (result === undefined) { // This part looks kinda disgusting but idk what to do really 🐸😥
         messageHandler({
             message : 'Error : Expired Token, please log back in',

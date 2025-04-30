@@ -8,6 +8,11 @@ const loginRouter = require('./controllers/login')
 const blogsRouter = require('./controllers/blogs')
 const userRouter = require('./controllers/users')
 
+if (process.env.NODE_ENV === 'test') {
+	const testingRouter = require('./controllers/testing')
+	app.use('/api/testing', testingRouter)
+}
+
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require("mongoose");
