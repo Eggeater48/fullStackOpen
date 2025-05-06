@@ -15,8 +15,16 @@ const createBlog = async (page, blog) => {
 
 const createDeletable = async (page, blog) => {
 	await loginWith(page, 'The User', 'enKerro')
-	await createBlog(page, { title: 'The Deletable', author: 'The Deleted', url: 'The URL' })
+	await createBlog(page, blog)
 	await page.getByRole('button', { name: 'logout' }).click()
 }
+
+const clickLikeAFewTimes = async (page) => {
+
+	for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
+		await blog.click()
+	}
+}
+
 
 export { loginWith, createBlog, createDeletable }

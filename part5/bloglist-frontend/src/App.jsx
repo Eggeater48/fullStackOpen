@@ -48,6 +48,7 @@ const App = () => {
       } else {
         setBlogs(blogs.concat(result))
         blogFormRef.current.toggleVisibility()
+
         messageHandler({
             message : `a new blog ${blogObject.title} by ${blogObject.author} added`,
             type : "blog"
@@ -101,6 +102,11 @@ const App = () => {
         }
       })
       setBlogs(newBlog)
+
+      const sortedBlogs = blogs.toSorted((a, b) => {
+        return b.likes - a.likes
+      })
+      setBlogs(sortedBlogs)
     } else {
       await messageHandler({
         'message': 'Backend Error',

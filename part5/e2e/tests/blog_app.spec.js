@@ -1,7 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 const { loginWith, createBlog, createDeletable } = require('./helper.js');
-const exp = require("node:constants");
-
 
 describe('Blog app', () => {
 	beforeEach(async ({ page, request }) => {
@@ -83,5 +81,42 @@ describe('Blog app', () => {
 			await page.getByRole('button',{ name: 'view'}).click()
 			await expect(page.getByRole('button', { name: 'remove'})).not.toBeVisible()
 		})
+	})
+
+	describe('Blog Arrangement', () => {
+		beforeEach(({ page }) => {
+			loginWith(page, 'The User', 'enKerro')
+		})
+
+		test('Blogs are ordered by like count', async ({ page }) => {
+			await createBlog(page, { title: 'The first blog', author: 'The first author', url: 'The first URL' })
+			await createBlog(page, { title: 'The second blog', author: 'The second author', url: 'The second URL' })
+			await createBlog(page, { title: 'The third blog', author: 'The third author', url: 'The third URL' })
+
+			const firstBlog = await page
+				.getByTestId('custom-element')
+				.filter({ hasText: 'The first blog The first author' })
+				.getByRole('button', { name: 'view' })
+				.click()
+
+			await firstBlog
+
+			// const secondBlog =
+			await page
+				.getByTestId('custom-element')
+				.filter({ hasText: 'The second blog The second author' })
+				.getByRole('button', { name: 'view' })
+				.click()
+
+			//const thirdBlog =
+				await page
+				.getByTestId('custom-element')
+				.filter({ hasText: 'The third blog The third author' })
+				.getByRole('button', { name: 'view' })
+				.click()
+
+
+		})
+
 	})
 })
