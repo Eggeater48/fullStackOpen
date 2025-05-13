@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, createBlog, createDeletable } = require('./helper.js');
+const { loginWith, createBlog, createDeletable, clickLike } = require('./helper.js');
 
 describe('Blog app', () => {
 	beforeEach(async ({ page, request }) => {
@@ -96,27 +96,45 @@ describe('Blog app', () => {
 			const firstBlog = await page
 				.getByTestId('custom-element')
 				.filter({ hasText: 'The first blog The first author' })
-				.getByRole('button', { name: 'view' })
-				.click()
 
 			await firstBlog
+				.getByRole('button', { name: 'view' })
+				.click()
 
-			// const secondBlog =
-			await page
+			const secondBlog = await page
 				.getByTestId('custom-element')
 				.filter({ hasText: 'The second blog The second author' })
+
+			await secondBlog
 				.getByRole('button', { name: 'view' })
 				.click()
 
-			//const thirdBlog =
-				await page
+			const thirdBlog = await page
 				.getByTestId('custom-element')
 				.filter({ hasText: 'The third blog The third author' })
+
+			await thirdBlog
 				.getByRole('button', { name: 'view' })
 				.click()
 
+			await clickLike(await firstBlog.getByRole('button', { name: 'like' }), 1)
+			await clickLike(await secondBlog.getByRole('button', { name: 'like' }), 2)
+			await clickLike(await thirdBlog.getByRole('button', { name: 'like' }), 3)
 
+			const textContent = await page
+				.getByTestId('blogs')
+				.textContent()
+
+			const formattedText = textContent.split('remove')
+			formattedText.splice(3, 1)
+
+			const expectedResult = [
+				'The third blog The third authorhideThe third URLlikes 3likeThe Tester',
+				'The second blog The second authorhideThe second URLlikes 2likeThe Tester',
+				'The first blog The first authorhideThe first URLlikes 1likeThe Tester'
+			]
+
+			await expect(expectedResult).toEqual(formattedText)
 		})
-
 	})
 })

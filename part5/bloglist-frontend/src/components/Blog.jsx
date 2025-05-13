@@ -3,7 +3,7 @@ import Bloggable from "./Bloggable.jsx";
 
 const Blog = ( { blogs, handleLike, handleDelete } ) => {
   return (
-    <>
+    <div data-testid={'blogs'}>
       {blogs.map(blog =>
         <div className={'blog'} key={blog.id} data-testid={'custom-element'}>
           {blog.title} {blog.author}
@@ -14,7 +14,7 @@ const Blog = ( { blogs, handleLike, handleDelete } ) => {
             deleteHandler={handleDelete}
           />
         </div>)}
-    </>
+    </div>
   )
 }
 

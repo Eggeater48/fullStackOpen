@@ -19,12 +19,14 @@ const createDeletable = async (page, blog) => {
 	await page.getByRole('button', { name: 'logout' }).click()
 }
 
-const clickLikeAFewTimes = async (page) => {
-
-	for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
-		await blog.click()
+const clickLike = async (page, likeAmount) => {
+	for (let i = 0; i < likeAmount; i++) {
+		await page.click()
+		await new Promise((waitASec) => {
+			setTimeout(waitASec, 200)
+		})
 	}
 }
 
 
-export { loginWith, createBlog, createDeletable }
+export { loginWith, createBlog, createDeletable, clickLike }

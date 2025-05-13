@@ -101,11 +101,11 @@ const App = () => {
           return blog
         }
       })
-      setBlogs(newBlog)
 
-      const sortedBlogs = blogs.toSorted((a, b) => {
+      const sortedBlogs = newBlog.toSorted((a, b) => {
         return b.likes - a.likes
       })
+
       setBlogs(sortedBlogs)
     } else {
       await messageHandler({
