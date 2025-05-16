@@ -1,29 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { voteAnecdote } from "./reducers/anecdoteReducer.js";
 import AnecdoteForm from "./components/AnecdoteForm.jsx";
+import AnecdoteList from "./components/AnecdoteList.jsx";
+import {useEffect} from "react";
+import {sortAnecdotes} from "./reducers/anecdoteReducer.js";
+import {useDispatch} from "react-redux";
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
+
+  useEffect(() => { // This doesn't really do anything but i just thought itd be good to have this here
+    dispatch(sortAnecdotes())
+  }, [])
 
   return (
     <div>
       <h2>Anecdotes</h2>
-
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => {
-              dispatch(voteAnecdote(anecdote.id))
-            }}>vote</button>
-          </div>
-        </div>
-      )}
-
+      <AnecdoteList />
       <AnecdoteForm />
 
     </div>

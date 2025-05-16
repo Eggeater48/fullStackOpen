@@ -39,6 +39,11 @@ const reducer = (state = initialState, action) => {
       return state.map(anecdote => {
         return anecdote.id !== action.payload.id ? anecdote : updatedAnecdote
       })
+    case 'SORT':
+      return state.toSorted((a, b) => {
+        return b.votes - a.votes
+      })
+
     default:
       return state
   }
@@ -60,6 +65,12 @@ export const voteAnecdote = (id) => {
     payload: {
       id
     }
+  }
+}
+
+export const sortAnecdotes = () => {
+  return {
+    type: 'SORT'
   }
 }
 
