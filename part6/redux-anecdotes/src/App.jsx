@@ -3,6 +3,7 @@ import AnecdoteList from "./components/AnecdoteList.jsx";
 import {useEffect} from "react";
 import {sortAnecdotes} from "./reducers/anecdoteReducer.js";
 import {useDispatch} from "react-redux";
+import Filter from "./components/Filter.jsx";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Filter />
       <AnecdoteList />
       <AnecdoteForm />
 
