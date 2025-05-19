@@ -1,6 +1,12 @@
-const reducer = (initialState, action) => {
-	switch (action.type) {
 
+
+
+const filterReducer = (state = '', action) => {
+	switch (action.type) {
+		case 'SET_FILTER':
+			return action.payload
+		default:
+			return state
 	}
 
 }
@@ -12,4 +18,4 @@ export const filterChange = filter => {
 	}
 }
 
-export default reducer
+export default filterReducer

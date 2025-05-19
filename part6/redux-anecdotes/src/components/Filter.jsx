@@ -1,4 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
+import {filterChange} from "../reducers/filterReducer.js";
 
 const Filter = () => {
 	const filter = useSelector(state => state.filter)
@@ -7,6 +8,7 @@ const Filter = () => {
 	const handleChange = (event) => {
 		// input-field value is in variable event.target.value
 		event.preventDefault()
+		dispatch(filterChange(event.target.value))
 	}
 	const style = {
 		marginBottom: 10
