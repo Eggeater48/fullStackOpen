@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {sortAnecdotes} from "./reducers/anecdoteReducer.js";
 import {useDispatch} from "react-redux";
 import Filter from "./components/Filter.jsx";
+import Notification from "./components/Notification.jsx";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Notification />
       <Filter />
       <AnecdoteList />
       <AnecdoteForm />
