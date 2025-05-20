@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
-import {sortAnecdotes, voteAnecdote} from "../reducers/anecdoteReducer.js";
+import { sortAnecdotes, voteAnecdote } from "../reducers/anecdoteReducer.js";
 
 const AnecdoteList = () => {
-	const anecdotes = useSelector(state => {
-		if (state.filter === '') {
-			return state.anecdotes
+	const anecdotes = useSelector(({ filter, anecdotes }) => {
+		if (filter === '') {
+			return anecdotes
 		} else {
-			return state.anecdotes.filter(
-				anecdote => anecdote.content.toLowerCase().includes(state.filter.toLowerCase())
+			return anecdotes.filter(
+				anecdote => anecdote.content.toLowerCase().includes(filter.anecdoteFilter.toLowerCase())
 			)
 		}
 	})
@@ -15,6 +15,7 @@ const AnecdoteList = () => {
 	const dispatch = useDispatch()
 
 	const votePost = (id) => {
+		console.log(id)
 		dispatch(voteAnecdote(id))
 		dispatch(sortAnecdotes())
 	}
