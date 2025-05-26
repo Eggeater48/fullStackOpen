@@ -8,7 +8,11 @@ const getAll = async () => {
 }
 
 const createNew = async (content) => {
-
+	const request = axios.post(
+		baseUrl,
+		content
+	)
+	return request.then(response => response.data)
 }
 
-export default { getAll }
+export default { getAll, createNew }

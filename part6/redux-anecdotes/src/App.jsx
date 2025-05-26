@@ -14,7 +14,8 @@ const App = () => {
 
   useEffect(() => {
     anecdoteService
-      .getAll().then(anecdotes => dispatch(setAnecdotes(anecdotes)))
+      .getAll()
+      .then(anecdotes => dispatch(setAnecdotes(anecdotes)))
   }, [])
 
   useEffect(() => { // This doesn't really do anything but i just thought itd be good to have this here
