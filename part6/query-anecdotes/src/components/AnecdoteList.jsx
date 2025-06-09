@@ -11,6 +11,7 @@ const AnecdoteList = () => {
 	const result = useQuery({
 		queryKey: ['anecdotes'],
 		queryFn: getAnecdotes,
+		refetchOnWindowFocus: false,
 		retry: 1
 	})
 
@@ -24,6 +25,7 @@ const AnecdoteList = () => {
 
 	const anecdotes = result.data
 
+	// This is probably the part that causes the infinite re-renders
 	const voteAnecdoteMutation = useMutation({
 		mutationFn: changeAnecdote,
 		onSuccess: () => {
@@ -35,11 +37,9 @@ const AnecdoteList = () => {
 	})
 
 	const handleVote = (anecdote) => {
-		voteAnecdoteMutation.mutate({
-			...anecdote,
-			votes: anecdote.votes + 1
-		})
+		voteAnecdoteMutation.mutate({...anecdote, votes: anecdote.votes + 1 })
 	}
+
 	return (
 		<>
 			{anecdotes.map(anecdote =>
