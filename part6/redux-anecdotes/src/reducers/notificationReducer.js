@@ -19,7 +19,7 @@ export const setVoteNotification = (message, timeout) => {
 		)
 		setTimeout(() => {
 			dispatch(clearNotification())
-		}, timeout * 1000)
+		}, timeout * 5000)
 	}
 }
 
