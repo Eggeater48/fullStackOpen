@@ -1,25 +1,23 @@
-import PropTypes from "prop-types";
 import Bloggable from "./Bloggable.jsx";
+import { useSelector } from "react-redux";
 
-const Blog = ( { blogs, handleLike, handleDelete } ) => {
+const Blog = ({ handleLike, handleDelete }) => {
+  const blogs = useSelector((state) => state.blogs);
+
   return (
-    <div data-testid={'blogs'}>
-      {blogs.map(blog =>
-        <div className={'blog'} key={blog.id} data-testid={'custom-element'}>
+    <div data-testid={"blogs"}>
+      {blogs.map((blog) => (
+        <div className={"blog"} key={blog.id} data-testid={"custom-element"}>
           {blog.title} {blog.author}
-
           <Bloggable
             blog={blog}
             likeHandler={handleLike}
             deleteHandler={handleDelete}
           />
-        </div>)}
+        </div>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-Blog.propTypes = {
-  blogs: PropTypes.array.isRequired
-}
-
-export default Blog
+export default Blog;

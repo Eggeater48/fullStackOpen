@@ -6,17 +6,23 @@ import blogService from "./services/blogs.js";
 import Togglable from "./components/Togglable.jsx";
 import CreateNew from "./components/CreateNew.jsx";
 import Notification from "./components/Notification.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNotificationButOnATimer } from "./reducers/notificationReducer.js";
+import {
+  createBlog,
+  initialBlogs,
+  sortBlogs,
+  voteBlogAndSortBlogsHandy2In1,
+} from "./reducers/blogReducer.js";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [blogs, setBlogs] = useState([]);
 
   const blogFormRef = useRef();
   const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
 
   useEffect(() => {
     const user = window.localStorage.getItem("loggedInUser");
@@ -27,22 +33,19 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      const sortedBlogs = blogs.toSorted((a, b) => {
-        return b.likes - a.likes;
-      });
-      setBlogs(sortedBlogs);
-    });
+    dispatch(initialBlogs());
+  }, []);
+
+  useEffect(() => {
+    dispatch(sortBlogs());
   }, []);
 
   const handleNew = async (blogObject) => {
     try {
-      const result = await blogService.createNew(blogObject);
-
-      console.log(result);
+      // i wanted to put this into the createNew component but the refs got confusing so i just put it here for the time being
+      const result = dispatch(createBlog(blogObject));
 
       if (result === undefined) {
-        // This part looks kinda disgusting but idk what to do really 🐸😥
         dispatch(
           setNotificationButOnATimer({
             message: "Error : Expired Token, please log back in",
@@ -50,7 +53,6 @@ const App = () => {
           }),
         );
       } else {
-        setBlogs(blogs.concat(result));
         blogFormRef.current.toggleVisibility();
 
         dispatch(
@@ -79,46 +81,7 @@ const App = () => {
   };
 
   const handleLike = async (blog) => {
-    const updatedBlog = {
-      user: blog.user[0].id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-      id: blog.id,
-    };
-
-    const result = await blogService.addLike(updatedBlog);
-
-    if (result !== undefined) {
-      const newBlog = blogs.map((blog, i) => {
-        if (i === blogs.findIndex((x) => x.title === result.title)) {
-          return {
-            author: blog.author,
-            id: blog.id,
-            likes: blog.likes + 1,
-            title: blog.title,
-            url: blog.url,
-            user: blog.user,
-          };
-        } else {
-          return blog;
-        }
-      });
-
-      const sortedBlogs = newBlog.toSorted((a, b) => {
-        return b.likes - a.likes;
-      });
-
-      setBlogs(sortedBlogs);
-    } else {
-      await dispatch(
-        setNotificationButOnATimer({
-          message: "Backend Error",
-          type: "error",
-        }),
-      );
-    }
+    await dispatch(voteBlogAndSortBlogsHandy2In1(blog));
   };
 
   const handleLogin = async (event) => {
@@ -187,11 +150,7 @@ const App = () => {
             <CreateNew handleNew={handleNew} data-testid={"newBlog"} />
           </Togglable>
 
-          <Blog
-            blogs={blogs}
-            handleDelete={handleDelete}
-            handleLike={handleLike}
-          />
+          <Blog handleDelete={handleDelete} handleLike={handleLike} />
         </div>
       )}
     </div>
