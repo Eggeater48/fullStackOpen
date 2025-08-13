@@ -4,6 +4,7 @@ const User = require('../models/User')
 const Blog = require('../models/Blog')
 
 const middleware = require('../utils/middleware');
+const {error} = require("../utils/logger");
 
 blogsRouter.get('/', async (request, response) => {
 	const result = await Blog.find({}).populate('user', { username: 1, name: 1 })

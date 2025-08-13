@@ -16,7 +16,7 @@ const blogSlice = createSlice({
         return b.likes - a.likes;
       });
     },
-    voteBlog(state, action) {
+    updateBlog(state, action) {
       return state.map((blog) => {
         return blog.id !== action.payload.id ? blog : action.payload;
       });
@@ -42,15 +42,21 @@ export const createBlog = (content) => {
 export const voteBlogAndSortBlogsHandy2In1 = (blog) => {
   return async (dispatch) => {
     const updatedBlog = {
-      ...blog,
-      votes: blog.votes + 1,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      user: blog.user[0].id,
+      likes: blog.likes + 1,
+      id: blog.id,
     };
+    console.log(updatedBlog);
 
-    await blogService.addLike(updatedBlog);
-    dispatch(voteBlog(updatedBlog));
+    const result = await blogService.addLike(updatedBlog);
+    dispatch(updateBlog(result));
     dispatch(sortBlogs());
   };
 };
 
-export const { setBlogs, appendBlog, sortBlogs, voteBlog } = blogSlice.actions;
+export const { setBlogs, appendBlog, sortBlogs, updateBlog } =
+  blogSlice.actions;
 export default blogSlice.reducer;
