@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog.jsx";
 import loginService from "./services/login.js";
 import Login from "./components/Login.jsx";
-import blogService from "./services/blogs.js";
 import Togglable from "./components/Togglable.jsx";
 import CreateNew from "./components/CreateNew.jsx";
 import Notification from "./components/Notification.jsx";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotificationButOnATimer } from "./reducers/notificationReducer.js";
 import {
   createBlog,
+  deleteBlogButWayBetter,
   initialBlogs,
   sortBlogs,
   voteBlogAndSortBlogsHandy2In1,
@@ -75,8 +75,7 @@ const App = () => {
 
   const handleDelete = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      await blogService.deleteBlog(blog.id);
-      setBlogs(blogs.filter((a) => a.id !== blog.id));
+      await dispatch(deleteBlogButWayBetter(blog));
     }
   };
 

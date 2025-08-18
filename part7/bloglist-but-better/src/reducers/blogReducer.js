@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import blogService from "../services/blogs.js";
 
 const blogSlice = createSlice({
@@ -21,6 +21,9 @@ const blogSlice = createSlice({
         return blog.id !== action.payload.id ? blog : action.payload;
       });
     },
+    deleteBlog(state, action) {
+      return state.filter((blog) => blog.id !== action.payload);
+    },
   },
 });
 
@@ -28,6 +31,7 @@ export const initialBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll();
     dispatch(setBlogs(blogs));
+    dispatch(sortBlogs());
   };
 };
 
@@ -42,21 +46,30 @@ export const createBlog = (content) => {
 export const voteBlogAndSortBlogsHandy2In1 = (blog) => {
   return async (dispatch) => {
     const updatedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
+      ...blog,
       user: blog.user[0].id,
       likes: blog.likes + 1,
-      id: blog.id,
     };
-    console.log(updatedBlog);
 
     const result = await blogService.addLike(updatedBlog);
-    dispatch(updateBlog(result));
+    dispatch(
+      // looks kinda scuffed but it does work.. so im not complaining..
+      updateBlog({
+        ...result,
+        likes: blog.likes + 1,
+      }),
+    );
     dispatch(sortBlogs());
   };
 };
 
-export const { setBlogs, appendBlog, sortBlogs, updateBlog } =
+export const deleteBlogButWayBetter = (blog) => {
+  return async (dispatch) => {
+    await blogService.deleteBlog(blog.id);
+    dispatch(deleteBlog(blog.id));
+  };
+};
+
+export const { setBlogs, appendBlog, sortBlogs, updateBlog, deleteBlog } =
   blogSlice.actions;
 export default blogSlice.reducer;
