@@ -5,7 +5,7 @@ import Login from "./components/Login.jsx";
 import Togglable from "./components/Togglable.jsx";
 import CreateNew from "./components/CreateNew.jsx";
 import Notification from "./components/Notification.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setNotificationButOnATimer } from "./reducers/notificationReducer.js";
 import {
   createBlog,
@@ -14,6 +14,8 @@ import {
   sortBlogs,
   voteBlogAndSortBlogsHandy2In1,
 } from "./reducers/blogReducer.js";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import UserView from "./components/UserView.jsx";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -22,7 +24,6 @@ const App = () => {
 
   const blogFormRef = useRef();
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state.blogs);
 
   useEffect(() => {
     const user = window.localStorage.getItem("loggedInUser");
@@ -120,6 +121,14 @@ const App = () => {
     await window.localStorage.removeItem("loggedInUser");
     setUser(null);
   };
+
+  /*<Router>
+    <Routes>
+      <Route path={'/'} element={} />
+      <Route path={"/users"} element={<UserView />} />
+    </Routes>
+  </Router>
+  */
 
   return (
     <div>
